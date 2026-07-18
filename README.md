@@ -1,14 +1,92 @@
-# astrbot-plugin-helloworld
+# 清一色听牌训练插件
 
-AstrBot 插件模板 / A template plugin for AstrBot plugin feature
+为 [AstrBot](https://github.com/AstrBotDevs/AstrBot) 开发的日本麻将清一色听牌训练插件。
 
-> [!NOTE]
-> This repo is just a template of [AstrBot](https://github.com/AstrBotDevs/AstrBot) Plugin.
-> 
-> [AstrBot](https://github.com/AstrBotDevs/AstrBot) is an agentic assistant for both personal and group conversations. It can be deployed across dozens of mainstream instant messaging platforms, including QQ, Telegram, Feishu, DingTalk, Slack, LINE, Discord, Matrix, etc. In addition, it provides a reliable and extensible conversational AI infrastructure for individuals, developers, and teams. Whether you need a personal AI companion, an intelligent customer support agent, an automation assistant, or an enterprise knowledge base, AstrBot enables you to quickly build AI applications directly within your existing messaging workflows.
+## 功能说明
 
-# Supports
+这是一个用于训练日本麻将清一色听牌判断能力的插件。插件会随机生成一副13张同花色的待听牌型，玩家需要判断听哪些牌。
 
-- [AstrBot Repo](https://github.com/AstrBotDevs/AstrBot)
-- [AstrBot Plugin Development Docs (Chinese)](https://docs.astrbot.app/dev/star/plugin-new.html)
-- [AstrBot Plugin Development Docs (English)](https://docs.astrbot.app/en/dev/star/plugin-new.html)
+### 主要特性
+
+- 🎲 随机生成清一色待听牌型（万、索、饼三种花色）
+- 🖼️ 自动生成麻将牌图片（使用 Regular 文件夹中的牌面资源）
+- 📊 记录玩家连胜次数
+- 👥 支持多个玩家独立游戏
+- ✅ 自动判断答案正误
+
+## 使用方法
+
+### 开始游戏
+
+发送 `/清一色` 开始游戏，BOT会生成一副13张牌的待听牌型图片。
+
+### 作答
+
+使用以下格式回答听牌：
+```
+/清一色 1m2m
+```
+
+格式说明：
+- 数字在前，花色在后
+- `m` = 万，`s` = 索，`p` = 饼
+- 示例：`1m` 表示听1万，`1m4m` 表示听1万和4万
+
+### 停止游戏
+
+发送 `/清一色 stop` 结束当前游戏。
+
+## 游戏规则
+
+1. 每次游戏会随机生成一副13张同花色的待听牌型
+2. 玩家需要判断并回答所有的听牌（顺序不限）
+3. 回答正确后，连胜次数+1，并自动进入下一题
+4. 回答错误后，连胜次数清零，游戏结束，并显示正确答案
+5. 每个玩家的游戏和连胜记录独立计算
+
+## 安装依赖
+
+插件需要 Pillow 库来处理图片：
+
+```bash
+pip install Pillow
+```
+
+## 资源文件
+
+插件使用 `Regular` 文件夹中的麻将牌图片资源：
+- `Front.png` - 麻将底牌
+- `Man1.png` ~ `Man9.png` - 万子1-9
+- `Sou1.png` ~ `Sou9.png` - 索子1-9
+- `Pin1.png` ~ `Pin9.png` - 筒子1-9
+
+## 示例
+
+```
+用户: /清一色
+BOT: [图片：13张万子]
+     花色：万
+     请回答听哪些牌，格式：/清一色 1m2m（数字在前，花色在后，m=万/s=索/p=饼）
+     发送 /清一色 stop 结束游戏
+
+用户: /清一色 1m4m
+BOT: @用户 正确！连胜：1
+     [图片：下一题]
+     ...
+
+用户: /清一色 2m
+BOT: @用户 错误！
+     正确答案：1m4m7m
+     连胜已重置。
+```
+
+## 技术说明
+
+- 使用标准日本麻将和牌规则判断听牌
+- 支持顺子（连续3张）和刻子（相同3张）的组合
+- 自动验证生成的牌型必须有听牌
+
+## 支持
+
+- [AstrBot 仓库](https://github.com/AstrBotDevs/AstrBot)
+- [AstrBot 插件开发文档](https://docs.astrbot.app/dev/star/plugin-new.html)

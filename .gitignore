@@ -205,3 +205,9 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# 插件特定文件
+temp_hand_*.png
+test_logic.py
+manual_test.py
+detailed_test.py
